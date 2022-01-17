@@ -1,0 +1,1 @@
+var score = document.querySelector(".score")
