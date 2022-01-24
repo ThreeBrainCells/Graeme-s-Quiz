@@ -1,24 +1,43 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CSS Box Styling</title>
+    <title>Coding Vocabulary Quiz</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css" />
   </head>
   <body>
     <header>
-      
+      <h1>Want to test your Coding Vocabulary?</h1>
+        <p>Take this Quirky Quiz!</p>
+        <button id="starter">Start</button>
     </header>
 
     <main>
-      <section>
-        
+      <section class="card" id="rules">
+        <p>As soon as you press the start button, you'll be presented with Ten (10) multiple-choice questions about various terms and phrases in HTML, CSS, and Javascript.<br>
+           You have 100 seconds to complete the quiz, but every wrong answer shortens the time remaining, so be careful!<br>
+            Once the questions are complete (or you run out of time), your score will be recorded.</p>
+      </section>
+      <section class="card quiz-area">
+        <div class="question-area">
+          <h2 id="question"></h2>
+          <button class="answer" id="answer-1"></button>
+          <button class="answer" id="answer-2"></button>
+          <button class="answer" id="answer-3"></button>
+          <button class="answer" id="answer-4"></button>
+        </div>
+        <div class = "card timer-area">
+          <div class="timer-text">
+            <div class="large-font timer-counter">100</div>
+            <h3>seconds remaining</h3>
+          </div>
+        </div> 
+      </section>
+      <section class="card score">
+        <p>Today's High Score is <span id="high-score"></span></p>
       </section>
 
-      <section>
-        
-      </section>
     </main>
     <script src="./assets/java/script.js"></script>
   </body>
