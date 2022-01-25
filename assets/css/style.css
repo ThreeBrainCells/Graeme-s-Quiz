@@ -33,3 +33,9 @@ main {
 .timer-area{
     display:none;
 }
+
+.loser{
+  display: none;
+  height: 500px;
+  width: auto;
+}

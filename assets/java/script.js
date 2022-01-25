@@ -5,65 +5,69 @@ var answer1 = document.querySelector("#answer-1");
 var answer2 = document.querySelector("#answer-2");
 var answer3 = document.querySelector("#answer-3");
 var answer4 = document.querySelector("#answer-4");
-var answerBtn = document.querySelectorAll(".answer")
+var answerBtn = document.querySelector("#answer")
 var startBtn = document.querySelector("#starter");
 var rulesCrd = document.querySelector("#rules");
 var timerArea = document.querySelector(".timer-area")
 var quizArea = document.querySelector(".question-area")
 var scoreCard = document.querySelector(".score")
+var taunt = document.querySelector(".loser")
+var shameStart = document.querySelector("#shameful-restart")
 
 //array containing questions
 var quizQuestions = [
   // question 0
-  {question: "What is this?",
-   correctAnswer: "this", 
-   answers:["not","notthiseither","noway", "this"]},
+  {question: "How do you enclose an array in JavaScript?",
+   correctAnswer: "[]", 
+   answers:["{}","[]","()", "''"]},
   //  question 1
-   {question: "What is this?",
-   correctAnswer: "this", 
-   answers:["not","notthiseither","noway", "this"]},
+   {question: "API stands for _________ Programming Interface.",
+   correctAnswer: "Application", 
+   answers:["Application","Action","Anchor", "Apache"]},
    //question 2
-   {question: "What is this?",
-   correctAnswer: "this", 
-   answers:["not","notthiseither","noway", "this"]},
+   {question: "Which CSS Selectors have a # in front of their name?",
+   correctAnswer: "Id", 
+   answers:["Media Query","Pseudoclass","Id", "Class"]},
    //question 3
-   {question: "What is this?",
-   correctAnswer: "this", 
-   answers:["not","notthiseither","noway", "this"]},
+   {question: "What Javascript function repeats code a certain amount of times?",
+   correctAnswer: "For Loop", 
+   answers:["moment.js","For Loop","if else", "JSON"]},
   //  question 4
-   {question: "What is this?",
-   correctAnswer: "this", 
-   answers:["not","notthiseither","noway", "this"]},
+   {question: "Which of these makes a button do something when clicked?",
+   correctAnswer: "addEventListener", 
+   answers:["getItem","makeClickable","addEventListener", "setInterval"]},
    //question 5
-   {question: "What is this?",
-   correctAnswer: "this", 
-   answers:["not","notthiseither","noway", "this"]},
+   {question: "What is the proper format for a template literal string?",
+   correctAnswer: "`${}`", 
+   answers:["`${}`","'()'","'$[]'", "!{}"]},
    //question 6
-   {question: "What is this?",
-   correctAnswer: "this", 
-   answers:["not","notthiseither","noway", "this"]},
+   {question: "which of these gives the color red?",
+   correctAnswer: "#ff0000", 
+   answers:["rgb(0, 0, 255)","#ff0000","hsl(147, 50%, 47%)", "#232344"]},
    //question 7
-   {question: "What is this?",
-   correctAnswer: "this", 
-   answers:["not","notthiseither","noway", "this"]},
+   {question: "If the padding is 25px 50px 75px 100px, which is the biggest?",
+   correctAnswer: "left", 
+   answers:["left","bottom","top", "right"]},
    //question 8
-   {question: "What is this?",
-   correctAnswer: "this", 
-   answers:["not","notthiseither","noway", "this"]},
+   {question: "Which of these screen sizes is more likely for a desktop?",
+   correctAnswer: "1980px", 
+   answers:["600px","800px","1980px", "1000px"]},
    //question 9
-   {question: "What is this?",
-   correctAnswer: "this", 
-   answers:["not","notthiseither","noway", "this"]},
+   {question: "CSS stands for Cascading _______ sheets",
+   correctAnswer: "Style", 
+   answers:["SEO","Server","Style", "String"]},
 ];
 var highScores = [];
 var timer;
-var timerCount;
+var timerCount=100;
 var timeLeft=0;
 var QueCount = 0;
 var answeredCorrectly = 0;
 var quizScore=0;
 
+//triggered when start button is pressed
 function startQuiz(){
+  //possibly change from 'none' to 'hidden', and possibly change display to visiblity
     rulesCrd.style.display = "none";
     timerArea.style.display = "block";
     quizArea.style.display = "block";
@@ -71,7 +75,7 @@ function startQuiz(){
     startTimer();
     getQuestion();
 };
-
+//loads highscores if there are any
 function init(){
 getScores();
 };
@@ -87,20 +91,18 @@ function startTimer() {
           clearInterval(timer);
         }
       }
-      if (timerCount === 0) {
+      else if (timerCount <= 0) {
         clearInterval(timer);
         loseGame();
       }
-    }, 10000);
+    }, 1000);
   };
-
+//loads question text to quiz buttons depending on QueCount
 function getQuestion(){
-  // if(QueCount>9){
-  //   winGame()
-  // }
-  // else{}  
+  if(QueCount>9){
+    return
+  }  
   var chosenQuestion = quizQuestions[QueCount]
-  console.log(chosenQuestion.question)
   quizQuestion.textContent=chosenQuestion.question
   answer1.textContent=chosenQuestion.answers[0]
   answer2.textContent=chosenQuestion.answers[1]
@@ -108,16 +110,17 @@ function getQuestion(){
   answer4.textContent=chosenQuestion.answers[3]
   };
 
-
-function checkAnswer(){
- console.log("this works");
- if (answerBtn.textContent === quizQuestions[QueCount].correctAnswer) {
-   console.log("so does this")
-   answeredCorrectly ++
+// changes QueCount, and other variables depending on whether or not the answer was correct.
+function checkAnswer(event){
+if (QueCount>9){
+  return
+}
+ if (event.target.textContent === quizQuestions[QueCount].correctAnswer) {
+     answeredCorrectly ++
+   console.log(answeredCorrectly)
  }
  else {
-   console.log("not that");
-   timerCount-=10;
+     timerCount-=10;
  }
  QueCount ++
  getQuestion()
@@ -126,35 +129,66 @@ function checkAnswer(){
 // congratulates the user, prompts them to record their high scores, then resets the quiz.
 function winGame(){
   var winner=window.prompt("Congratulations, you finished with" + answeredCorrectly + " answers correct! Please enter your name to record your score!");
+  rulesCrd.style.display = "block";
+  timerArea.style.display = "none";
+  quizArea.style.display = "none";
+  startBtn.disabled = false;
   quizScore=timeLeft+answeredCorrectly;
-  var newscore={winner, quizScore}
-  highScores.push(newscore)
+  highScores.push({name: winner, score:quizScore})
+  storeScores()
+  getScores()
+  QueCount = 0;
 }
 
 // shows the losing message and plays an annoying jingle, then resets the quiz
 function loseGame(){
-  window.alert("Sorry, Time's Up!")
+  rulesCrd.style.display = "block";
+  timerArea.style.display = "none";
+  quizArea.style.display = "none";
+  startBtn.disabled = false;
+  taunt.style.display = "block";
   var music = new Audio('./assets/sound/you-are-an-idiot.mp3');
   music.play();
   music.loop=false;
+  QueCount=0;
+}
+//allows loser players to forget the fact they lost
+function eraseShame(){
+  taunt.style.display="none";
 }
 // stores scores in local storage.
 function storeScores(){
-  localStorage.setItem("scores", JSON.stringify(highScores))
-};
-// displays high score(s) in webpage.
+localStorage.setItem("scoreArr", JSON.stringify(highScores))};
+// displays high score(s) in webpage(assuming there is any).
 function getScores(){
- var scoreList = localStorage.getItem("scores")
- highscore.textContent=Math.max(highScores)
+  var recordedScores = JSON.parse(localStorage.getItem('scoreArr'))
+if (recordedScores !== null){
+  highScores=recordedScores;
+  console.log(highScores)
+  renderScores()
+} 
 };
+function renderScores(){
+  highscore.innerHTML = "";
+ 
+  // Render a new li for each score
+  for (var i = 0; i < highScores.length; i++) {
+    var scoreiter = highScores[i];
+    var li = document.createElement("li");
+    // li.textContent = scoreiter.name + ": " + scoreiter.score;
+    li.textContent = `${scoreiter.name}: ${scoreiter.score}`;
+    li.setAttribute("data-index", i);
 
+    highscore.appendChild(li);
+  }
+}
 init();
 
 startBtn.addEventListener("click", startQuiz);
 
 
+answerBtn.addEventListener("click", function(event){
+  checkAnswer(event);
+});
 
-answer1.addEventListener("click", checkAnswer)
-answer2.addEventListener("click", checkAnswer)
-answer3.addEventListener("click", checkAnswer)
-answer4.addEventListener("click", checkAnswer)
+shameStart.addEventListener("click", eraseShame)

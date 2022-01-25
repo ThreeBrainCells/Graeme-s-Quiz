@@ -19,13 +19,15 @@
            You have 100 seconds to complete the quiz, but every wrong answer shortens the time remaining, so be careful!<br>
             Once the questions are complete (or you run out of time), your score will be recorded.</p>
       </section>
-      <section class="card quiz-area">
-        <div class="question-area">
+      <section class="quiz-area">
+        <div class="card question-area">
           <h2 id="question"></h2>
-          <button class="answer" id="answer-1"></button>
-          <button class="answer" id="answer-2"></button>
-          <button class="answer" id="answer-3"></button>
-          <button class="answer" id="answer-4"></button>
+          <div id="answer">
+            <button id="answer-1"></button>
+            <button id="answer-2"></button>
+            <button id="answer-3"></button>
+            <button id="answer-4"></button>
+        </div>
         </div>
         <div class = "card timer-area">
           <div class="timer-text">
@@ -34,8 +36,14 @@
           </div>
         </div> 
       </section>
+      <section class = "card loser">
+        <h4>Time's Up! You Lose!</h4>
+        <button id="shameful-restart">Would you like to try again?</button>
+      </section>
       <section class="card score">
-        <p>Today's High Score is <span id="high-score"></span></p>
+        <p>Today's High Scores:</p>
+        <ol id="high-score">
+        </ol>
       </section>
 
     </main>
